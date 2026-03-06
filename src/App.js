@@ -85,6 +85,7 @@ export default function App(){
 
   function go(p){setVis(false);setTimeout(()=>{setPage(p);setVis(true);},160);}
   useEffect(()=>{setAiData(null);setAiLoad(false);},[choice]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(()=>{if(page==="ai"&&choice&&!aiData&&!aiLoading)fetchAI();},[page,choice,aiData]);
 
   async function fetchAI(){
@@ -100,7 +101,7 @@ ${guide}
 Reply ONLY valid JSON, alloc integers must sum to exactly 100:
 {"verdict":"max 12 words","score":${isNew?6:8},"pros":["max 8 words","max 8 words","max 8 words"],"cons":["max 8 words","max 8 words"],"tip":"max 20 words","investments":[{"name":"asset name","type":"ETF|Stocks|Crypto|Unit Trust|Cash|FD","risk":"Low|Medium|High|None","alloc":NUMBER,"reason":"max 8 words"},{"name":"","type":"","risk":"","alloc":NUMBER,"reason":""},{"name":"","type":"","risk":"","alloc":NUMBER,"reason":""},{"name":"","type":"","risk":"","alloc":NUMBER,"reason":""},{"name":"","type":"","risk":"","alloc":NUMBER,"reason":""}]}`;
     try{
-      const res=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":`Bearer ${process.env.REACT_APP_GROQ_API_KEY}`},body:JSON.stringify({model:"llama-3.3-70b-versatile",max_tokens:900,messages:[{role:"user",content:prompt}]})});
+      const res=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization": `Bearer ${process.env.REACT_APP_GROQ_API_KEY}`},body:JSON.stringify({model:"llama-3.3-70b-versatile",max_tokens:900,messages:[{role:"user",content:prompt}]})});
       const data=await res.json();
       const raw=data.choices?.[0]?.message?.content?.replace(/```json|```/g,"").trim();
       setAiData(JSON.parse(raw));
