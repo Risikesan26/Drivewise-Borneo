@@ -65,7 +65,7 @@ function Tip({text,children}){
   );
 }
 
-export default function DriveWise(){
+export default function App(){
   const[page,setPage]=useState("dashboard");
   const[brand,setBrand]=useState("");
   const[model,setModel]=useState("");
@@ -100,21 +100,9 @@ ${guide}
 Reply ONLY valid JSON, alloc integers must sum to exactly 100:
 {"verdict":"max 12 words","score":${isNew?6:8},"pros":["max 8 words","max 8 words","max 8 words"],"cons":["max 8 words","max 8 words"],"tip":"max 20 words","investments":[{"name":"asset name","type":"ETF|Stocks|Crypto|Unit Trust|Cash|FD","risk":"Low|Medium|High|None","alloc":NUMBER,"reason":"max 8 words"},{"name":"","type":"","risk":"","alloc":NUMBER,"reason":""},{"name":"","type":"","risk":"","alloc":NUMBER,"reason":""},{"name":"","type":"","risk":"","alloc":NUMBER,"reason":""},{"name":"","type":"","risk":"","alloc":NUMBER,"reason":""}]}`;
     try{
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${process.env.REACT_APP_GROQ_API_KEY}`  // paste your key here
-  },
-  body: JSON.stringify({
-    model: "llama-3.3-70b-versatile",  // or "mixtral-8x7b-32768"
-    max_tokens: 900,
-    messages: [{ role: "user", content: prompt }]
-  })
-});
-const data = await res.json();
-const raw = data.choices?.[0]?.message?.content?.replace(/```json|```/g, "").trim();
-
+      const res=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":`Bearer ${process.env.REACT_APP_GROQ_API_KEY}`},body:JSON.stringify({model:"llama-3.3-70b-versatile",max_tokens:900,messages:[{role:"user",content:prompt}]})});
+      const data=await res.json();
+      const raw=data.choices?.[0]?.message?.content?.replace(/```json|```/g,"").trim();
       setAiData(JSON.parse(raw));
     }catch{setAiData({verdict:"Could not load insights.",score:0,pros:[],cons:[],tip:"Please retry.",investments:[]});}
     setAiLoad(false);
@@ -542,7 +530,7 @@ const raw = data.choices?.[0]?.message?.content?.replace(/```json|```/g, "").tri
                 <div className="card" style={{padding:"28px 28px"}}>
                   <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:20}}>
                     <div style={{width:8,height:8,borderRadius:"50%",background:"#059669",animation:"pulse .8s infinite"}}/>
-                    <span style={{color:"#64748b",fontSize:14}}>Groq is analysing your financial decision…</span>
+                    <span style={{color:"#64748b",fontSize:14}}>Claude is analysing your financial decision…</span>
                   </div>
                   {[68,50,80,44,62].map((w,i)=>(
                     <div key={i} className="sh" style={{height:12,width:`${w}%`,marginBottom:10}}/>
