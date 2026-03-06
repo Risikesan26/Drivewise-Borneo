@@ -104,7 +104,7 @@ Reply ONLY valid JSON, alloc integers must sum to exactly 100:
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    "Authorization": "Bearer ${process.env.REACT_APP_GROQ_API_KEY}"  // paste your key here
+    "Authorization": `Bearer ${process.env.REACT_APP_GROQ_API_KEY}`  // paste your key here
   },
   body: JSON.stringify({
     model: "llama-3.3-70b-versatile",  // or "mixtral-8x7b-32768"
